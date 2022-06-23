@@ -17,7 +17,8 @@ module.exports = (req,res)=>{
     
             // select questions randomly
             let ramdomQuests = [];
-            cb(null,  randomSlector(ramdomQuests,docs));
+            cb(null, {questions:randomSlector(ramdomQuests,docs),
+                      subject:combination.combination[0]});
         });
     })
     
@@ -29,7 +30,8 @@ module.exports = (req,res)=>{
     
             // do some stuff with docs & pass or directly pass it
             let ramdomQuests = [];
-            cb(null,  randomSlector(ramdomQuests,docs));
+            cb(null, {questions:randomSlector(ramdomQuests,docs),
+                subject:combination.combination[1]});
         });
     })    
     
@@ -41,7 +43,8 @@ module.exports = (req,res)=>{
     
             // do some stuff with docs & pass or directly pass it
             let ramdomQuests = [];
-            cb(null,  randomSlector(ramdomQuests,docs));
+            cb(null, {questions:randomSlector(ramdomQuests,docs),
+                subject:combination.combination[2]});
         });
     })
     
@@ -53,7 +56,8 @@ module.exports = (req,res)=>{
     
             // do some stuff with docs & pass or directly pass it
             let ramdomQuests = [];
-            cb(null,  randomSlector(ramdomQuests,docs));
+            cb(null, {questions:randomSlector(ramdomQuests,docs),
+                subject:combination.combination[3]});
         });
     })
     
