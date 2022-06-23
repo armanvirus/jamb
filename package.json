@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/open-source-learners/Futute-talanted-youth-devs#readme",
   "dependencies": {
+    "async": "^3.2.4",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",

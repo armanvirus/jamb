@@ -1,4 +1,7 @@
-const Questions = require('../models/questions')
+const Questions = require('../models/questions');
+const combinations = require('../utils/combinations');
+var async = require('async');
+const Docs = require('../utils/queries')
 
 
 module.exports = {
@@ -53,5 +56,15 @@ module.exports = {
                 res.json({questions:randomSlector(ramdomQuests,foundQuestions),
                             student:req.user});
         })}
+    },
+    testing:(req,res)=>{
+    //     let questionsReady;
+    //    let course = req.params.course;
+    //    let combination = combinations.filter((el)=> el.course == course);
+    //    combination = combination[0];
+    //    console.log(combination.combination[0])
+
+    // console.log(Docs(req))
+    Docs(req,res);
     }
 }

@@ -15,8 +15,8 @@ const express = require('express'),
       const { v4: uuidv4 } = require('uuid');
 
       // initialize passport middleare
-      require('./config/facebook-auth')(passport);
-      require('./config/local-auth')(passport);
+      // require('./config/facebook-auth')(passport);
+      // require('./config/local-auth')(passport);
 
 
       // establish mongodb connections
@@ -55,6 +55,8 @@ const express = require('express'),
       app.get('/', (req,res)=>{
           res.send("hey your are an awsome dev any thing is working perfectly");
       })
+
+      app.get('/testing/:course', quensCon.testing)
 
       app.post('/register',(req,res)=>{
         const {email, password,name} = req.body;
