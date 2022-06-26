@@ -293,6 +293,31 @@
   padding: 10px 5px
 }
 
+.subjects{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  max-width: 200px;
+}
+
+.subjects button{
+  border:none;
+  outline: none;
+  cursor: pointer;
+  background: #fff;
+  padding: 7px 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 3px 2px #e6e6e6;
+  font-weight: 600;
+  font-family: consolas;
+}
+
+.subjects button.active{
+  background: green;
+  color: white;
+}
+
 .time{
   background: #fff;
   padding: 3px 15px;

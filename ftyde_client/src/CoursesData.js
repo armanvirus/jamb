@@ -5,12 +5,12 @@ export default [
         displayImg:'imgs/download.jpeg'
     },
     {
-        name:'css',
+        name:'chemistry',
         description:`json provides metadata used when your web app is installed on a`,
         displayImg:'imgs/css.png'
     },
     {
-        name:'JavaScript',
+        name:'maths',
         description:`json provides metadata used when your web app is installed on a`,
         displayImg:'imgs/javascript.png'
     },

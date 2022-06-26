@@ -68,6 +68,7 @@ module.exports = (req,res)=>{
         }
     
         // console.log(docs)
-        return res.send(docs);
+        return res.json({questions:docs,
+            student:"change Later"});;
     })
 }

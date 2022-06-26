@@ -12,6 +12,7 @@ function Quiz(){
     let navigate = useNavigate();
     let url = useLocation();
     const [questins, setQuestions] = useState();
+    const [subjectIndex, setSubjectIndex] = useState(0);
     const [student,setStudent] = useState()
     const [loading, setLoading] = useState(true);
     const [cindex, setcIndex] = useState(0);
@@ -19,14 +20,14 @@ function Quiz(){
     const [progress,setProgress] = useState(1);
     var   [score,setScore] = useState([]);
     var currentQuestion;
-    loading ? currentQuestion = '' : currentQuestion = questins[cindex];
+    loading ? currentQuestion = '' : currentQuestion = questins[subjectIndex].questions[cindex];
     const indeces = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-    let isSelected = (i)=>selectedOp.some((el) => el.questionIndex == cindex && el.optionIndex == i);
+    let isSelected = (i)=>selectedOp.some((el) => el.subject == subjectIndex && el.questionIndex == cindex && el.optionIndex == i);
     let checkIndex = (index) =>{
         if(index -1 == cindex){
             return('activeQ')
         }
-        if(selectedOp.some((el) => el.questionIndex == index -1)){
+        if(selectedOp.some((el) => el.questionIndex == index -1 && el.subject == subjectIndex)){
             return('answered')
         }else{
             return('notAnswerd')
@@ -42,18 +43,19 @@ function Quiz(){
       }, []);
     
     useEffect(()=>{
-        setProgress(Number(selectedOp.length));
-        console.log((progress/questins?.length) * 100 + '%')
+        // setProgress(Number(selectedOp.length));
+        // console.log((progress/questins?.length) * 100 + '%')
+        // console.log(selectedOp)
     },[selectedOp])
     
     useEffect(() =>{
-        console.log(score)
+        // console.log(score)
     },[score])
 
     const fechQuestions = ()=>{
         setLoading(true);
         axios.defaults.withCredentials = true;
-        axios.get(`http://localhost:2000/test/start/${category}`)
+        axios.get(`http://localhost:2000/testing/${category}`)
         .then((res)=>{
             if(res.data?.verification === false){
                 localStorage.setItem('intendedRoute',`${url.pathname}`)
@@ -86,27 +88,33 @@ function Quiz(){
         let matchedComparison;
             if(selectedOp.length > 0){
                 matchedComparison = selectedOp;
-                const checkQuestAndOP = matchedComparison.some((el) => el.questionIndex == cindex && el.optionIndex == i);
-                const checkQuest = matchedComparison.some((el) => el.questionIndex == cindex);
+                const checkQuestAndOP = matchedComparison.some((el) =>el.subject == subjectIndex && el.questionIndex == cindex && el.optionIndex == i);
+                const checkQuest = matchedComparison.some((el) => el.subject == subjectIndex && el.questionIndex == cindex);
                 if(checkQuestAndOP){
-                    const filtered = matchedComparison.filter((el)=> el.questionIndex !== cindex && el.optionIndex !==i);
-                    setSelectedOp(filtered);
+                    const unitFiltered = matchedComparison.filter((el)=> el.questionIndex !== cindex && el.optionIndex !==i && el.subject == subjectIndex );
+                    const allFiltered = matchedComparison.filter((el)=> el.subject != subjectIndex );
+                    let merge = [...allFiltered,...unitFiltered];
+                    setSelectedOp(merge);
                 }else if(checkQuest){
-                    const filtered = matchedComparison.filter((el)=> el.questionIndex !== cindex);
+                    const unitFiltered = matchedComparison.filter((el)=> el.subject == subjectIndex && el.questionIndex !== cindex);
+                    const allFiltered = matchedComparison.filter((el)=> el.subject != subjectIndex);
+                    const filtered = [...allFiltered,...unitFiltered];
                     if(filtered.length > 0){
                     // console.log([...filtered,{questionIndex:cindex,optionIndex:i}])
-                    setSelectedOp([...filtered,{questionIndex:cindex,optionIndex:i}]);
+                    setSelectedOp([...filtered,{questionIndex:cindex,optionIndex:i,subject:subjectIndex}]);
                     }else{
-                    setSelectedOp([{questionIndex:cindex,optionIndex:i}]);
+                    setSelectedOp([{questionIndex:cindex,optionIndex:i,subject:subjectIndex}]);
                 }
                 }else{
-                    setSelectedOp([...selectedOp,{questionIndex:cindex,optionIndex:i}]);
+                    setSelectedOp([...selectedOp,{questionIndex:cindex,optionIndex:i,subject:subjectIndex}]);
                 }
 
             }else{
             setSelectedOp([{
                 'questionIndex':cindex, 
-                'optionIndex':i}]);
+                'optionIndex':i,
+                'subject':subjectIndex
+            }]);
                 // console.log("state is set")
             }
                 
@@ -120,13 +128,14 @@ function Quiz(){
                     }else{
                         setScore([...score,{
                             "quest":currentQuestion.question,
-                             "ans":currentQuestion.answer
+                             "ans":currentQuestion.answer,
+                             "subject":subjectIndex
                         }])
                     }
 
                 }else{
                     setScore([{"quest":currentQuestion.question,
-                             "ans":currentQuestion.answer}])
+                             "ans":currentQuestion.answer, "subject":subjectIndex}])
                 }  
             }else{
                 const isQuestionAnswered = score.some((el)=> el.quest == currentQuestion.question);
@@ -141,6 +150,36 @@ function Quiz(){
     }
 
     const finish = ()=>{
+        const [subject1,subject2,subject3,subject4] = questins;
+        if(cindex === questins[subjectIndex].questions.length - 1 && subjectIndex == questins.length -1){
+            const sub1Ans = score.filter(el => el.subject == 0);
+            const sub2Ans = score.filter(el => el.subject == 1);
+            const sub3Ans = score.filter(el => el.subject == 2);
+            const sub4Ans = score.filter(el => el.subject == 3);
+            const sortedScore = [
+                {
+                    subject:subject1.subject,
+                    scored:sub1Ans
+                },
+                {
+                    subject:subject2.subject,
+                    scored:sub2Ans
+                },
+                {
+                    subject:subject3.subject,
+                    scored:sub3Ans
+                },
+                {
+                    subject:subject4.subject,
+                    scored:sub4Ans
+                }
+            ];
+
+            console.log(sortedScore)
+        }else{
+            setSubjectIndex(subjectIndex + 1)
+            setcIndex(0);
+        }
         let gain = Math.ceil((score.length/questins.length)*100);
         console.log(gain + "%")
     }
@@ -153,7 +192,18 @@ function Quiz(){
                 <div className="quiz-utils">
                  <div className="user-"><img src={require('../imgs/man.png')}/> <span>{student.name}</span></div>
                  <div className="ct">
-                 <div>{category}</div>
+                 <div>{questins.map((el,index)=>{
+                     return(<button
+                    //  className={checkIndex(index)}
+                     onClick={(e)=>{
+                     setSubjectIndex(e.target.value)
+                     setcIndex(0)
+                     }} 
+                     value={index} 
+                    key={index}>
+                     {el.subject}
+                     </button>)
+                 })}</div>
                  {/* <div className="time">
                 <MdOutlineHourglassFull/>
                 30:00
@@ -179,7 +229,20 @@ function Quiz(){
                 <div className="quiz-utils-desktop">
                  <div className="user-"><img src={require('../imgs/man.png')}/> <span>{student.name}</span></div>
                  <div className="ct">
-                 <div>{category}</div>
+                 <div className="subjects">
+                 {questins.map((el,index)=>{
+                     return(<button
+                     className={index == subjectIndex ? 'active' : ""}
+                     onClick={(e)=>{
+                     setSubjectIndex(e.target.value);
+                     setcIndex(0)
+                     }} 
+                     value={index} 
+                    key={index}>
+                     {el.subject}
+                     </button>)
+                 })}
+                 </div>
                  {/* <div className="time">
                 <MdOutlineHourglassFull/>
                 30:00
@@ -221,7 +284,7 @@ function Quiz(){
                     </div>
                     <div className='next'>
                     {
-                        cindex == questins.length - 1 ? 
+                        cindex === questins[subjectIndex].questions.length - 1 ? 
                         <button onClick = {()=> finish() }>
                          Finished
                          </button> 
