@@ -4,7 +4,9 @@ import {useParams,useNavigate,useLocation} from 'react-router-dom';
 import axios from 'axios';
 import Timer from '../quizUtils/Timer';
 import PlaceHolder from '../quizUtils/PlaceHolder'
+import Completed from './completed';
 import _ from 'lodash';
+import indeces from './Index';
 
 
 function Quiz(){
@@ -15,13 +17,15 @@ function Quiz(){
     const [subjectIndex, setSubjectIndex] = useState(0);
     const [student,setStudent] = useState()
     const [loading, setLoading] = useState(true);
+    const [isCompleted, setCompleted] = useState(false);
     const [cindex, setcIndex] = useState(0);
     const [selectedOp,setSelectedOp] = useState([]);
     const [progress,setProgress] = useState(1);
     var   [score,setScore] = useState([]);
+    var   [sortedScore,setsortedScore] = useState([]);
     var currentQuestion;
     loading ? currentQuestion = '' : currentQuestion = questins[subjectIndex].questions[cindex];
-    const indeces = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+    // const indeces = import('../index');
     let isSelected = (i)=>selectedOp.some((el) => el.subject == subjectIndex && el.questionIndex == cindex && el.optionIndex == i);
     let checkIndex = (index) =>{
         if(index -1 == cindex){
@@ -33,8 +37,36 @@ function Quiz(){
             return('notAnswerd')
         }
     }
-    
+    // the demo score data
+    const completedAnswer = [
+        {scored:[
+            {quest: 'is gee really a javascript biology fan boy, can you say about the course css tell us your vision', ans: 'i have no words in biology', subject: 0},
+            {quest: 'is really a biology fan boy, can you say about the course css tell us your vision', ans: 'Is awesome', subject: 0},
+            {quest: 'is gee really a javascript biology fan boy, can you say about the course css tell us your vision', ans: 'i have no words in biology', subject: 0},
+            {quest: 'is really a biology fan boy, can you say about the course css tell us your vision', ans: 'Is awesome', subject: 0}
+        ],
+        subject:'Biology'},
+        {scored:[
+            {quest: 'is gee really a javascript biology fan boy, can you say about the course css tell us your vision', ans: 'i have no words in biology', subject: 0},
+            
+        ],
+        subject:'Physics'},
+        {scored:[
+            {quest: 'is gee really a javascript biology fan boy, can you say about the course css tell us your vision', ans: 'i have no words in biology', subject: 0},
+            {quest: 'is really a biology fan boy, can you say about the course css tell us your vision', ans: 'Is awesome', subject: 0},
+            {quest: 'is really a biology fan boy, can you say about the course css tell us your vision', ans: 'Is awesome', subject: 0}
+        ],
+        subject:'Math'},
+        {scored:[
+            {quest: 'is gee really a javascript biology fan boy, can you say about the course css tell us your vision', ans: 'i have no words in biology', subject: 0},
+            {quest: 'is really a biology fan boy, can you say about the course css tell us your vision', ans: 'Is awesome', subject: 0},
+            {quest: 'is gee really a javascript biology fan boy, can you say about the course css tell us your vision', ans: 'i have no words in biology', subject: 0},
+            {quest: 'is really a biology fan boy, can you say about the course css tell us your vision', ans: 'Is awesome', subject: 0}
+        ],
+        subject:'English'}
+    ];
 
+    // end of the demo score
 
 
     useEffect(() => {
@@ -156,7 +188,7 @@ function Quiz(){
             const sub2Ans = score.filter(el => el.subject == 1);
             const sub3Ans = score.filter(el => el.subject == 2);
             const sub4Ans = score.filter(el => el.subject == 3);
-            const sortedScore = [
+            const sotedScore = [
                 {
                     subject:subject1.subject,
                     scored:sub1Ans
@@ -174,8 +206,8 @@ function Quiz(){
                     scored:sub4Ans
                 }
             ];
-
-            console.log(sortedScore)
+            setsortedScore(sotedScore)
+            setCompleted(true)
         }else{
             setSubjectIndex(subjectIndex + 1)
             setcIndex(0);
@@ -187,7 +219,9 @@ function Quiz(){
 
     return(
         <div className="quiz">
-            {loading ? <div> please wait and calm down while questions are getting ready</div> : <div className="quiz-sec">
+            {loading ? <div> please wait and calm down while questions are getting ready</div> : <div>
+                { isCompleted ? <> <Completed total={score.length} scores={sortedScore}/></> :
+            <div className="quiz-sec">
             {/* quiz for information for mobile view */}
                 <div className="quiz-utils">
                  <div className="user-"><img src={require('../imgs/man.png')}/> <span>{student.name}</span></div>
@@ -227,7 +261,7 @@ function Quiz(){
 
                 {/* quiz information for desktop view */}
                 <div className="quiz-utils-desktop">
-                 <div className="user-"><img src={require('../imgs/man.png')}/> <span>{student.name}</span></div>
+                 <div className="user-"><img src={require('../imgs/man.png')}/> <span>Arman Grema</span></div>
                  <div className="ct">
                  <div className="subjects">
                  {questins.map((el,index)=>{
@@ -262,9 +296,9 @@ function Quiz(){
                             </button>)
                     })}
                  </div>
-                 <div className="progress-bar">
+                 {/* <div className="progress-bar">
                    <div style={{width:`${(progress/questins?.length) * 100}%`}} className="bar"></div>
-                 </div>
+                 </div> */}
                 </div>
 
                 <div className="quiz-main">
@@ -298,7 +332,9 @@ function Quiz(){
                 <div className="quit" onClick={()=>finish()}>
                     <img src={require('../imgs/power.png')}/> Quit
                 </div>
-            </div>}
+                    </div>}
+            </div> 
+        }
         </div>
     )
 }
