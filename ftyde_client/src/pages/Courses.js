@@ -5,13 +5,18 @@ import CoursesData from "../CoursesData";
 import SearchResult from "./SearchResult"
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import VideocamIcon from '@mui/icons-material/Videocam';
+import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import AddHomeWorkOutlinedIcon from '@mui/icons-material/AddHomeWorkOutlined';
 import { width } from '@mui/system';
+import { Link } from "react-router-dom";
 
 
 function Courses(){
+
     const [isSearching, setSearching] = useState(false);
     const [matched, setMatched] = useState();
 
@@ -28,6 +33,7 @@ function Courses(){
               setMatched(matches)
         setSearching(true) }
     }
+
     return(
         <div className="courses">
 
@@ -64,16 +70,16 @@ function Courses(){
             </div> :<div className="products">
              {CoursesData.map((course)=>{
                  return(
-                 <div className="products_list" key={course.name}>
+                 <div className="products_list" key={course.id}>
                     <div className='courseLinks'>
-                        <a href={`/quiz/${course.name}`} className='course_name'> 
+                        <a href={course.id === 'a1' ? '/info': '/construction'} className='course_name'> 
                             {/* <img src={require(`../${course.displayImg}`)} alt="" className="im pro-image"/> */}
                            <>{course.id === 'a1' && <PlayCircleIcon style={{fontSize:'50', color: '#139d37'}}/>}</>
                            <>{course.id === 'a2' && <DocumentScannerIcon style={{fontSize:'80', color: '#fff'}}/>}</>
-                           <>{course.id === 'a5' && <HelpOutlineIcon style={{fontSize:'80', color: '#fff'}}/>}</>
-                           <>{course.id === 'a4' && <VideocamIcon style={{fontSize:'80', color: '#fff'}}/>}</>
+                           <>{course.id === 'a5' && <GroupAddOutlinedIcon style={{fontSize:'80', color: '#fff'}}/>}</>
+                           <>{course.id === 'a4' && <OndemandVideoOutlinedIcon style={{fontSize:'80', color: '#fff'}}/>}</>
                            <>{course.id === 'a8' && <InfoOutlinedIcon style={{fontSize:'80', color: '#fff'}}/>}</>
-                           <>{course.id === 'a9' && <VideocamIcon style={{fontSize:'80', color: '#fff'}}/>}</>
+                           <>{course.id === 'a9' && <SupportAgentOutlinedIcon style={{fontSize:'80', color: '#fff'}}/>}</>
                            <>{course.id === 'a10' && <HelpOutlineIcon style={{fontSize:'80', color: '#fff'}}/>}</>
                             {/* <p>{course.action}</p> */}
                         </a>
