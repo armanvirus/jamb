@@ -1,7 +1,10 @@
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import VideocamIcon from '@mui/icons-material/Videocam';
+import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import AddHomeWorkOutlinedIcon from '@mui/icons-material/AddHomeWorkOutlined';
 export default [
     {   id:"a1",
         name:'Get the Best Experience',
@@ -30,8 +33,9 @@ export default [
         action:'Start Now'
     },
     {   id:"a5",
-        name:'Hard Truth about Insurance',
-        description:`json provides metadata used when your web app is installed on a`,
+        name:'Tournament',
+        description:`Compete with a friend, learn together and compete with others to get you standardized on the 
+        your relevant courses`,
         icon:PlayCircleIcon,
         action:'Start Now'
     },
@@ -48,14 +52,15 @@ export default [
         action:'Start Now'
     },
     {   id:"a8",
-        name:'FAQ`s',
-        description:`read the frequently asked questions about jamb and jamblite`,
+        name:'About Jamblite',
+        description:`read the pros and cons about jamblite here anything you need to 
+        know is provided in detail you can follow and explore them`,
         icon:PlayCircleIcon,    
         action:'Start Now'
     },
     {   id:"a9",
-        name:'FAQ`s',
-        description:`read the frequently asked questions about jamb and jamblite`,
+        name:'Support Center',
+        description:`you can directly connect with the support center through the hotlines and many more.`,
         icon:PlayCircleIcon,    
         action:'Start Now'
     },
