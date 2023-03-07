@@ -67,7 +67,8 @@ function Courses(){
                     &nbsp;&nbsp; ! <br/>
                     No for your search!, try another keyword
                 </div>}
-            </div> :<div className="products">
+            </div> :
+            <div className="products">
              {CoursesData.map((course)=>{
                  return(
                  <div className="products_list" key={course.id}>
