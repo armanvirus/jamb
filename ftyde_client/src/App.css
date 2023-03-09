@@ -10,6 +10,11 @@
 *{
   font-family: system !important;
 }
+
+
+.comb{
+  box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.10);
+}
 /* coditionally assign classes */
 .activeQ{
   background: red;
